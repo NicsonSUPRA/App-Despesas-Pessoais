@@ -85,7 +85,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text("Controle de Despesas"),
+      title: Text(
+        "Controle de Despesas",
+        style: TextStyle(
+            fontSize: 10 * MediaQuery.of(context).textScaler.scale(1.5)),
+        //TextScalerFactor foi depreciado
+      ),
       actions: [
         IconButton(
             onPressed: () => _openTransactionForm(context),
