@@ -84,17 +84,21 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text("Controle de Despesas"),
+      actions: [
+        IconButton(
+            onPressed: () => _openTransactionForm(context),
+            icon: Icon(Icons.add))
+      ],
+      centerTitle: true,
+      backgroundColor: Colors.purple[100],
+    );
+    final avaliableHeight =
+        MediaQuery.of(context).size.height - appBar.preferredSize.height;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Controle de Despesas"),
-          actions: [
-            IconButton(
-                onPressed: () => _openTransactionForm(context),
-                icon: Icon(Icons.add))
-          ],
-          centerTitle: true,
-          backgroundColor: Colors.purple[100],
-        ),
+        appBar: appBar,
         floatingActionButton: IconButton.filled(
             onPressed: () => _openTransactionForm(context),
             icon: Icon(Icons.add)),
@@ -102,11 +106,17 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Chart(recentTransactions: _transactions),
+              Container(
+                  height: avaliableHeight * 0.3,
+                  child: Chart(recentTransactions: _transactions)),
               Column(
                 children: [
-                  TransactionList(
-                      transactions: _transactions, remove: _removeTransaction),
+                  Container(
+                    height: avaliableHeight * 0.7,
+                    child: TransactionList(
+                        transactions: _transactions,
+                        remove: _removeTransaction),
+                  ),
                 ],
               )
             ],
