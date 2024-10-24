@@ -43,19 +43,25 @@ class TransactionList extends StatelessWidget {
               );
             },
           )
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Nenhuma transação foi cadastrada"),
-              Container(
-                height: 200,
-                padding: EdgeInsets.all(12.0),
-                child: Image.asset(
-                  "assets/images/waiting.png",
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
+        : LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      height: constraints.maxHeight * 0.12,
+                      child: Text("Nenhuma transação foi cadastrada")),
+                  Container(
+                    height: constraints.maxHeight * 0.6,
+                    padding: EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      "assets/images/waiting.png",
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                ],
+              );
+            },
           );
   }
 }

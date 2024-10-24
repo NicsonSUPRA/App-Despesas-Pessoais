@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 //parou na aula 120
 //parou na aula 126
 //parou na aula 134
+//parou na aula 143
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
@@ -35,6 +36,8 @@ class _MainPageState extends State<MainPage> {
     Navigator.of(context).pop();
   }
 
+  bool _showChat = false;
+
   _removeTransaction(String id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
@@ -42,32 +45,32 @@ class _MainPageState extends State<MainPage> {
   }
 
   final List<Transaction> _transactions = [
-    new Transaction(
+    Transaction(
         id: "1",
         title: "Fazer compras",
         value: 200.34,
         time: DateTime.now().subtract(Duration(days: 4))),
-    new Transaction(
+    Transaction(
         id: "2",
         title: "Novo tênis",
         value: 100.00,
         time: DateTime.now().subtract(Duration(days: 3))),
-    new Transaction(
+    Transaction(
         id: "3",
         title: "Coca cola",
         value: 10.00,
         time: DateTime.now().subtract(Duration(days: 1))),
-    new Transaction(
+    Transaction(
         id: "4",
         title: "Lanche no Shopping",
         value: 60.50,
         time: DateTime.now().subtract(Duration(days: 2))),
-    new Transaction(
+    Transaction(
         id: "5",
         title: "Parcela Casa",
         value: 1200.50,
         time: DateTime.now().subtract(Duration(days: 4))),
-    new Transaction(
+    Transaction(
         id: "6",
         title: "Presente",
         value: 300.80,
@@ -84,6 +87,11 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    double avaliableHeightChart = !isLandScape ? 0.3 : 0.7;
+
     final appBar = AppBar(
       title: Text(
         "Controle de Despesas",
@@ -92,6 +100,12 @@ class _MainPageState extends State<MainPage> {
         //TextScalerFactor foi depreciado
       ),
       actions: [
+        if (isLandScape)
+          IconButton(
+              onPressed: () => setState(() {
+                    _showChat = !_showChat;
+                  }),
+              icon: Icon(_showChat ? Icons.list : Icons.show_chart)),
         IconButton(
             onPressed: () => _openTransactionForm(context),
             icon: Icon(Icons.add))
@@ -111,19 +125,21 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                  height: avaliableHeight * 0.3,
-                  child: Chart(recentTransactions: _transactions)),
-              Column(
-                children: [
-                  Container(
-                    height: avaliableHeight * 0.7,
-                    child: TransactionList(
-                        transactions: _transactions,
-                        remove: _removeTransaction),
-                  ),
-                ],
-              )
+              if (_showChat || !isLandScape)
+                Container(
+                    height: avaliableHeight * avaliableHeightChart,
+                    child: Chart(recentTransactions: _transactions)),
+              if (!_showChat || !isLandScape)
+                Column(
+                  children: [
+                    Container(
+                      height: avaliableHeight * (isLandScape ? 0.8 : 0.6),
+                      child: TransactionList(
+                          transactions: _transactions,
+                          remove: _removeTransaction),
+                    ),
+                  ],
+                )
             ],
           ),
         ));

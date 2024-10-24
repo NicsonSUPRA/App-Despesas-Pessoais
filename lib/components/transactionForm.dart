@@ -46,49 +46,53 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 5,
-        child: Column(
-          children: [
-            TextField(
-              controller: titleController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(labelText: "Título"),
-            ),
-            TextField(
-              controller: valueController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: "Valor"),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(selectedDate == null
-                      ? "Nenhuma data foi selecionada!"
-                      : DateFormat('d/MM/y').format(selectedDate!)),
-                  FilledButton(
-                    onPressed: () => _showDatePicker(context),
-                    child: Text("selecionar data"),
-                  )
-                ],
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom),
+        child: Card(
+          elevation: 5,
+          child: Column(
+            children: [
+              TextField(
+                controller: titleController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: "Título"),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FilledButton(
-                        onPressed: _submitForm, child: Text("Salvar")),
-                  ),
+              TextField(
+                controller: valueController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(labelText: "Valor"),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(selectedDate == null
+                        ? "Nenhuma data foi selecionada!"
+                        : DateFormat('d/MM/y').format(selectedDate!)),
+                    FilledButton(
+                      onPressed: () => _showDatePicker(context),
+                      child: Text("selecionar data"),
+                    )
+                  ],
                 ),
-              ],
-            )
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FilledButton(
+                          onPressed: _submitForm, child: Text("Salvar")),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
